@@ -66,6 +66,7 @@ setup(
             'pytest==5.4.1',
             'pytest-mock==1.10.4',
             'pytest-cov==2.8.1',
+            'pytest-django==3.9.0'
         ],
     },
 
