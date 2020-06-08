@@ -16,7 +16,7 @@ class FunctionalTest(LiveServerTestCase):
         options = Options()
         options.binary_location = "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
         
-        self.browser = webdriver.Chrome(chrome_options=options)
+        self.browser = webdriver.Chrome(options=options)
 
     def tearDown(self):
         self.browser.quit()
@@ -40,9 +40,14 @@ class FunctionalTest(LiveServerTestCase):
         # He types "choknam rypone" in the text box
         inputbox.send_keys("choknam rypone")
 
-        # When he hits enter, the page updates and 
+        # When he hits enter,
         # the search results are displayed
         inputbox.send_keys(Keys.ENTER)
+
+        # The page title and the header tell him what this is all about
+        self.assertIn('Pali Canon Search Results', self.browser.title)
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('Pali Canon Search Results', header_text)
         self.wait_for_row_in_list_table('choknam rypone')
 
     def wait_for_row_in_list_table(self, row_text): 
