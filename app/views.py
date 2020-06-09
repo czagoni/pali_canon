@@ -8,7 +8,7 @@ def home_page(request):
 
 def results_page(request):
 
-    results = Search().search(request.POST.get('search_query_text'))
+    results = Search(index_dir='index_dir', text_dir='raw_texts').search(request.POST.get('search_query_text'))
 
     print(len(results))
     return render(request, 'results.html', {

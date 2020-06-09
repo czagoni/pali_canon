@@ -1,3 +1,4 @@
+import os
 from whoosh.fields import Schema, TEXT, ID
 from whoosh import index
 from unicodedata import normalize
@@ -12,33 +13,12 @@ import os.path
 
 class Search:
 
-    def __init__(self):
+    def __init__(self, index_dir, text_dir):
 
-        if not os.path.exists("indexdir"):
-            os.mkdir("indexdir")
-
-        # For example, to add an accent-folding filter to a stemming analyzer:
-        my_analyzer = StemmingAnalyzer() | CharsetFilter(accent_map)
-
-        self.schema = Schema(id=ID(stored=True), text=TEXT(stored = True, analyzer=my_analyzer))
-
-        with open('./raw_texts/mn_4.txt', 'r') as f:
-            text_4 = normalize('NFKC', f.read())
-
-        with open('./raw_texts/mn_5.txt', 'r') as f:
-            text_5 = normalize('NFKC', f.read())
-
-        text_4 = text_4[:593]
-        text_5 = text_5[:544]
-
-        self.ix = index.create_in("indexdir", self.schema)
-        
-        writer = self.ix.writer()
-        writer.add_document(id=u"mn_4", text=text_4)
-        writer.add_document(id=u"mn_5", text=text_5)
-        
-        writer.commit()
-
+        try:
+            self.ix = index.open_dir(index_dir)
+        except index.EmptyIndexError:
+            self.ix = self.create_index(index_dir, text_dir)
 
     def search(self, text, _type='default'):
 
@@ -48,17 +28,45 @@ class Search:
         pos_weighting = FunctionWeighting(myscore_fn)
         
         with self.ix.searcher(weighting=pos_weighting) as searcher:
-            parser = QueryParser("text", self.schema)
+
+            parser = QueryParser("text", self.ix.schema)
+          
             if _type == 'fuzzy':
                 parser.add_plugin(FuzzyTermPlugin())
+          
             elif _type == 'sequence':
                 parser.remove_plugin_class(PhrasePlugin)
                 parser.add_plugin(SequencePlugin())
                 parser.add_plugin(FuzzyTermPlugin())
+          
             query = parser.parse(text)
+
             results = searcher.search(query, terms=True)
             results.formatter = whoosh.highlight.UppercaseFormatter()
             results.fragmenter = whoosh.highlight.WholeFragmenter()
 
             return [result.highlights('text') for result in results]
 
+    def create_index(self, index_dir, text_dir):
+
+        # For example, to add an accent-folding filter to a stemming analyzer:
+        my_analyzer = StemmingAnalyzer() | CharsetFilter(accent_map)
+
+        schema = Schema(id=ID(stored=True), text=TEXT(stored=True, analyzer=my_analyzer))
+
+        if not os.path.exists(index_dir):
+            os.mkdir(index_dir)
+
+        ix = index.create_in(index_dir, schema)
+        
+        writer = ix.writer()
+
+        (_, _, file_names) = next(os.walk(text_dir))       
+
+        for file_name in file_names:
+            with open(os.path.join(text_dir, file_name), 'r') as f:
+                writer.add_document(id=f"{file_name.split('.')[0]}", text=normalize('NFKC', f.read()))
+
+        writer.commit()
+
+        return ix
