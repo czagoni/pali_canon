@@ -5,7 +5,10 @@
     <body>
         <h1>Pali Canon Search Results</h1>
         {% for result in search_results %}
-        <div>Number of matches in text: {{result}}</div>
+        <br>
+        <div>Number of matches in text {{result.id}}: {{result.score}}</div>
+        <div>Match terms: {{result.matched_terms}}</div>
+        <pre>{{result.highlights_text}}</pre>
         {% endfor %}
         </table>
     </body>
