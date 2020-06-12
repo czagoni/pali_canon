@@ -1,14 +1,16 @@
 import os
-from whoosh.fields import Schema, TEXT, ID
-from whoosh import index
+import os.path
+import shutil
 from unicodedata import normalize
-from whoosh.qparser import QueryParser, FuzzyTermPlugin, PhrasePlugin, SequencePlugin
+
 import whoosh
+from whoosh import index
+from whoosh.fields import Schema, TEXT, ID
+from whoosh.qparser import QueryParser, FuzzyTermPlugin, PhrasePlugin, SequencePlugin
 from whoosh.scoring import FunctionWeighting
 from whoosh.analysis import CharsetFilter, StemmingAnalyzer
 from whoosh import fields
 from whoosh.support.charset import accent_map
-import os.path
 
 
 class SearchResult:
@@ -23,11 +25,7 @@ class SearchResult:
 class Search:
 
     def __init__(self, index_dir, text_dir):
-
-        try:
-            self.ix = index.open_dir(index_dir)
-        except index.EmptyIndexError:
-            self.ix = self.create_index(index_dir, text_dir)
+        self.ix = index.open_dir(index_dir)
 
     def search(self, text, _type='default'):
 
@@ -62,28 +60,39 @@ class Search:
 
             return search_results
 
-    def create_index(self, index_dir, text_dir):
 
-        # For example, to add an accent-folding filter to a stemming analyzer:
-        my_analyzer = StemmingAnalyzer() | CharsetFilter(accent_map)
+def create_index(index_dir, text_dir):
 
-        schema = Schema(id=ID(stored=True), 
-                        text=TEXT(stored=True, analyzer=my_analyzer))
+    # For example, to add an accent-folding filter to a stemming analyzer:
+    my_analyzer = StemmingAnalyzer() | CharsetFilter(accent_map)
 
-        if not os.path.exists(index_dir):
-            os.mkdir(index_dir)
+    schema = Schema(id=ID(stored=True), 
+                    text=TEXT(stored=True, analyzer=my_analyzer))
 
-        ix = index.create_in(index_dir, schema)
+    if not os.path.exists(index_dir):
+        os.mkdir(index_dir)
 
-        writer = ix.writer()
+    ix = index.create_in(index_dir, schema)
 
-        (_, _, file_names) = next(os.walk(text_dir))
+    writer = ix.writer()
 
-        for file_name in file_names:
-            with open(os.path.join(text_dir, file_name), 'r') as f:
-                writer.add_document(
-                    id=f"{file_name.split('.')[0]}", text=normalize('NFKC', f.read()))
+    (_, _, file_names) = next(os.walk(text_dir))
 
-        writer.commit()
+    for file_name in file_names:
+        with open(os.path.join(text_dir, file_name), 'r') as f:
+            writer.add_document(
+                id=f"{file_name.split('.')[0]}", text=normalize('NFKC', f.read()))
 
-        return ix
+    writer.commit()
+
+    return ix
+
+
+def remove_index(index_dir):
+    """ param <index_dir> could either be relative or absolute. """
+    if os.path.isfile(index_dir) or os.path.islink(index_dir):
+        os.remove(index_dir)  # remove the file
+    elif os.path.isdir(index_dir):
+        shutil.rmtree(index_dir)  # remove dir and all contains
+    else:
+        raise ValueError("file {} is not a file or dir.".format(index_dir))

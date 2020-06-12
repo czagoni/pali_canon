@@ -9,7 +9,7 @@ from django.test import LiveServerTestCase
 
 class FunctionalTest(LiveServerTestCase):
 
-    MAX_WAIT = 10
+    MAX_WAIT = 1
 
     def setUp(self):
         
@@ -38,7 +38,7 @@ class FunctionalTest(LiveServerTestCase):
                          'Enter a search query')
 
         # He types "choknam rypone" in the text box
-        inputbox.send_keys("choknam rypone")
+        inputbox.send_keys("samano")
 
         # When he hits enter,
         # the search results are displayed
@@ -48,7 +48,7 @@ class FunctionalTest(LiveServerTestCase):
         self.assertIn('Pali Canon Search Results', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('Pali Canon Search Results', header_text)
-        self.wait_for_row_in_list_table('choknam rypone')
+        self.wait_for_row_in_list_table('samano')
 
     def wait_for_row_in_list_table(self, row_text): 
 

@@ -119,3 +119,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# index / text directories
+
+INDEX_DIR = 'index_dir'
+TEXT_DIR = 'raw_texts'
