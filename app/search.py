@@ -56,7 +56,7 @@ class Search:
 
             search_results = [SearchResult(id=result['id'],
                                            score=result.score,
-                                           matched_terms=[x[1].decode("utf-8")  for x in result.matched_terms()],
+                                           matched_terms=[x[1].decode("utf-8") for x in result.matched_terms()],
                                            highlights_text=result.highlights('text'))
                               for result in results]
 

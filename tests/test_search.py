@@ -28,3 +28,5 @@ class SearchTest(TestCase):
         calls = [call(id='test_1', text='The scenery scene will continue anyway...'),
                  call(id='test_2', text='...not just to blow observants away.')]
         create_in.return_value.writer().add_document.assert_has_calls(calls, any_order=True)
+
+    

@@ -4,12 +4,14 @@
     </head>
     <body>
         <h1>Pali Canon Search Results</h1>
+
         {% for result in search_results %}
-        <br>
-        <div>Number of matches in text {{result.id}}: {{result.score}}</div>
-        <div>Match terms: {{result.matched_terms}}</div>
-        <pre>{{result.highlights_text}}</pre>
+            <br>
+            <div>Number of matches in text {{result.id}}: {{result.score}}</div>
+            <div>Match terms: {{result.matched_terms}}</div>
+            <pre>{{result.highlights_text}}</pre>
+        {% empty %}
+            <div>No results</div>
         {% endfor %}
-        </table>
     </body>
 </html>
