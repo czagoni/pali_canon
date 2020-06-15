@@ -52,10 +52,16 @@ class Search:
             results.formatter = whoosh.highlight.HtmlFormatter()
             results.fragmenter = whoosh.highlight.WholeFragmenter()
 
-            search_results = [SearchResult(id=result['id'],
-                                           score=result.score,
-                                           matched_terms=[x[1].decode("utf-8") for x in result.matched_terms()],
-                                           highlights_text=result.highlights('text'))
+            # search_results = [SearchResult(id=result['id'],
+            #                                score=result.score,
+            #                                matched_terms=[x[1].decode("utf-8") for x in result.matched_terms()],
+            #                                highlights_text=result.highlights('text'))
+            #                   for result in results]
+
+            search_results = [{'id': result['id'],
+                               'score': result.score,
+                               'matched_terms': [x[1].decode("utf-8") for x in result.matched_terms()],
+                               'highlights_text': result.highlights('text')}
                               for result in results]
 
             return search_results

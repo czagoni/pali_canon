@@ -31,8 +31,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 border" id="main_layout--text" style="height: 100%; overflow: auto;">
-                Action
+
+            <div class="col-sm-6 h-100">
+                <div class="row" style="height: 10%">
+                    <div class="col-sm-12 border p-3" id="main_layout--text_header"></div>
+                </div>
+                <div class="row" style="height: 90%">
+                    <div class="col-sm-12 border p-3" id="main_layout--text" style="height: 100%; overflow: auto;"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -71,6 +77,8 @@
         }
     });
 
+    var search_results = [];
+
     function Search() {
         // preventing from page reload and default actions
         // serialize the data for sending the form data.
@@ -84,13 +92,18 @@
             },
             success: function (response) {
                 // display the newly friend to table.
-                // var search_results = JSON.parse(response["search_results"]);
-                $("#main_layout--text").text(response.search_results);
+                search_results = response["search_results"];
+                if (response['num_results'] > 0) {
+                    $("#main_layout--text").text(search_results[0].highlights_text);
+                }
+                else {
+                    $("#main_layout--text").text("No Results");
+                }
             },
-            error: function (response) {
-                // alert the error if any error occured
-                alert("error");
-            }
+            // error: function (response) {
+            //     // alert the error if any error occured
+            //     alert("error");
+            // }
         })
     }
 
