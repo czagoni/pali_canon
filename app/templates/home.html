@@ -2,14 +2,14 @@
 {% block body %}
     <div id="main_layout" class="container main_container d-flex">
         <div class="row flex-fill">
-            <div class="col-sm-6 h-100">
+            <div class="col-sm-4 h-100">
                 <div class="row h-50">
                     <div class="col-sm-12 border p-3" id="main_layout--search">
                         <!-- Search -->
 	                    <div class="title">Enter a search query</div>
 
                         <form action="javascript:;" onsubmit="Search(this)">
-                            <input class='field' name='search_query_text' id='search_query_box' placeholder=""/>
+                            <input class='field' id='search_query_input' placeholder=""/>
                             {% csrf_token %}
                         </form>
 
@@ -25,20 +25,19 @@
                     </div>
                 </div>
                 <div class="row h-50">
-                    <div class="col-sm-12 border" id="main_layout--sections">
-                        <!-- Sections -->
-                        Info
-                    </div>
+                    <div class="col-sm-12 border" id="main_layout--chapters"></div>
                 </div>
             </div>
 
-            <div class="col-sm-6 h-100">
+            <div class="col-sm-8 h-100">
                 <div class="row" style="height: 10%">
-                    <div class="col-sm-12 border p-3" id="main_layout--text_header"></div>
+                    <div class="col-sm-12 border p-3" id="main_layout--header">
+                        <pre class="main_text_box" id="header_text" style="font-size: 1.25rem;"></pre>
+                    </div>
                 </div>
                 <div class="row" style="height: 90%">
                     <div class="col-sm-12 border p-3" id="main_layout--text" style="height: 100%; overflow-y: auto;">
-                        <pre class="main_text_box" id="main_layout--text_box"></pre>
+                        <pre class="main_text_box" id="highlights_text"></pre>
                     </div>
                 </div>
             </div>
@@ -80,11 +79,13 @@
     });
 
     var search_results = [];
+    var selection = 0;
 
     function Search() {
         // preventing from page reload and default actions
         // serialize the data for sending the form data.
-        var search_query_text = $("#search_query_box").val();
+        var search_query_text = $("#search_query_input").val();
+        selection = 0;
         // make POST ajax call
         $.ajax({
             dataType: 'json',
@@ -96,13 +97,16 @@
                 // display the newly friend to table.
                 search_results = response["search_results"];
                 if (response['num_results'] > 0) {
-                    $("#main_layout--text_header").text(search_results[0].summary_text);
-                    $("#main_layout--text_box").html(search_results[0].highlights_text);
+                    $("#header_text").html(search_results[selection].header_text);
+                    $("#highlights_text").html(search_results[selection].highlights_text);
+                    $("#main_layout--text").scrollTop(0);
+                    $("#main_layout--chapters").html(response['chapter_links']);
 
                 }
                 else {
-                    $("#main_layout--text_header").text("No Results");
-                    $("#main_layout--text_box").text("No Results");
+                    $("#header_text").html("No results.");
+                    $("#highlights_text").html("No results.");
+                    $("#main_layout--chapters").text("No results.");
 
                 }
             },
@@ -129,6 +133,20 @@
                 });
             });
         });
+
+        $(function() {
+            $(document).ready(function(){
+                $(document).on('click', '.chapter_link', function() {
+                    selection = parseInt(this.id.split("-")[1]);
+                    $("#header_text").html(search_results[selection].header_text);
+                    $("#highlights_text").html(search_results[selection].highlights_text);
+                    $("#main_layout--text").scrollTop(0);
+                    return false;
+                });              
+            });
+        });
+
+  
 
     </script>
 

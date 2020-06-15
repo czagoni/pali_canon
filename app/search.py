@@ -59,10 +59,13 @@ class Search:
                                'score': result.score,
                                'matched_terms': [x[1].decode('utf-8') for x in result.matched_terms()],
                                'highlights_text': result.highlights('text'),
-                               'summary_text': f"{result['id']}: {result.score} matches for {', '.join([x[1].decode('utf-8') for x in result.matched_terms()])}"}
+                               'header_text': f"{result['id']}: {result.score} matches for {', '.join([x[1].decode('utf-8') for x in result.matched_terms()])}"}
                               for result in results]
 
-            return search_results
+            return {'search_results': search_results,
+                    'num_results': len(search_results),
+                    'chapter_links': '<br>'.join([f"<span class='chapter_link' id='chapter_link-{i}''>{result['id']} ({result.score})</span>"
+                                                 for i, result in enumerate(results)])}
 
 
 def create_index(index_dir, text_dir):

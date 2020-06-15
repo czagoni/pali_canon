@@ -12,8 +12,5 @@ def home_page(request):
 
 def search(request):
 
-    search_results = Search(settings.INDEX_DIR, settings.TEXT_DIR) \
-                           .search(request.GET.get('search_query_text'))
-
-    return JsonResponse({'search_results': search_results,
-                         'num_results': len(search_results)})
+    return JsonResponse(Search(settings.INDEX_DIR, settings.TEXT_DIR) \
+                           .search(request.GET.get('search_query_text')))

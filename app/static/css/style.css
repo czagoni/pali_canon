@@ -6,14 +6,6 @@
   flex:1 1 1;
 }
 
-body{
-  font-family: "Roboto", Helvetica, Arial, "sans-serif";
-  font-size: 0.875rem;
-  line-height: 1.5rem;
-  color: #000000;
-  background-color: #fbfbfc;
-}
-
 a:link {
   color: #666666;
   text-decoration: underline;
@@ -83,3 +75,26 @@ a:hover {
   background-color: red;
 }
 
+.chapter_link {
+  font-size: 0.875rem;
+}
+
+/* unvisited link */
+chapter_link:link {
+  color: red;
+}
+
+/* visited link */
+chapter_link:visited {
+  color: green;
+}
+
+/* mouse over link */
+chapter_link:hover {
+  color: hotpink;
+}
+
+/* selected link */
+chapter_link:active {
+  color: blue;
+}
