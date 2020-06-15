@@ -1,12 +1,117 @@
-<html>
-    <head>
-        <title>Pali Canon Search</title>
-    </head>
-    <body>
-        <h1>Pali Canon Search</h1>
-        <form method="POST" action="/results/">
-            <input name='search_query_text' id='id_search_query_box' placeholder="Enter a search query"/>
-            {% csrf_token %}
-        </form>
-    </body>
-</html>
+{% extends 'layout.html' %}
+{% block body %}
+    <div id="main_layout" class="container main_container d-flex">
+        <div class="row flex-fill">
+            <div class="col-sm-6 h-100">
+                <div class="row h-50">
+                    <div class="col-sm-12 border p-3" id="main_layout--search">
+                        <!-- Search -->
+	                    <div class="title">Enter a search query</div>
+
+                        <form action="javascript:;" onsubmit="Search(this)">
+                            <input class='field' name='search_query_text' id='search_query_box' placeholder=""/>
+                            {% csrf_token %}
+                        </form>
+
+                        <a><div class="button" id="toggle_help_text" style="width: 180px;">How it Works ▼ </div></a>
+
+                        <div id='help_text' style="display: none;">
+                            Blah-blah-blah<br><br>
+                            <ol>
+                            <li>Blah-blah</li>
+                            <li>Blah-blah-blah</li>
+                          </ol><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row h-50">
+                    <div class="col-sm-12 border" id="main_layout--sections">
+                        <!-- Sections -->
+                        Info
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 flex-fill border" id="main_layout--text">
+                <!-- Text -->
+                Action
+            </div>
+        </div>
+    </div>
+  
+  <script type=text/javascript>
+
+    function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+    console.log(csrftoken);
+
+    //Ajax call
+    function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    function Search() {
+        // preventing from page reload and default actions
+        // serialize the data for sending the form data.
+        var search_query_text = $("#search_query_box").val();
+        // make POST ajax call
+        $.ajax({
+            dataType: 'json',
+            url: "{% url 'search' %}",
+            data: {
+                "search_query_text": search_query_text
+            },
+            success: function (response) {
+                // display the newly friend to table.
+                // var search_results = JSON.parse(response["search_results"]);
+                $("#main_layout--text").text(response.search_results);
+            },
+            error: function (response) {
+                // alert the error if any error occured
+                alert("error");
+            }
+        })
+    }
+
+        $(function() {
+            $(document).ready(function(){
+                $("#toggle_help_text").on('click', function() {
+                    if (help_text == true) {
+                        $("#help_text").hide(1000);
+                        help_text = false;
+                        $("#toggle_help_text").text("How it Works ▼ ");
+                    }
+                    else {
+                        $("#help_text").show(1000);
+                        help_text = true;
+                        $("#toggle_help_text").text("How it Works ▲ ");
+                    }
+                });
+            });
+        });
+
+    </script>
+
+{% endblock %}
