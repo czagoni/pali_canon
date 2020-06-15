@@ -37,7 +37,7 @@ class FunctionalTest(LiveServerTestCase):
         self.assertEqual(inputbox.get_attribute('placeholder'),
                          'Enter a search query')
 
-        # He types "choknam rypone" in the text box
+        # He types "samano" in the text box
         inputbox.send_keys("samano")
 
         # When he hits enter,

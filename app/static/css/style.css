@@ -67,3 +67,19 @@ a:hover {
 .button:hover {
   background-color: #9fc1bf;
 }
+
+.main_text_box {
+  display: block;
+  font-family: monospace;
+  white-space: pre;
+  margin: 1em 0;
+  white-space: pre-wrap; 
+  word-break: keep-all;
+  font-size: 0.875rem;
+}
+
+.main_text_box_match {
+  color: white; 
+  background-color: red;
+}
+

@@ -4,7 +4,7 @@ import shutil
 from unicodedata import normalize
 
 import whoosh
-from whoosh import index
+from whoosh import index, highlight
 from whoosh.fields import Schema, TEXT, ID
 from whoosh.qparser import QueryParser, FuzzyTermPlugin, PhrasePlugin, SequencePlugin
 from whoosh.scoring import FunctionWeighting
@@ -13,13 +13,16 @@ from whoosh import fields
 from whoosh.support.charset import accent_map
 
 
-class SearchResult:
+class PreMarkFormatter(highlight.Formatter):
 
-    def __init__(self, id, score, matched_terms, highlights_text):
-        self.id = id
-        self.score = score
-        self.matched_terms = matched_terms
-        self.highlights_text = highlights_text
+    def format_token(self, text, token, replace=False):
+        # Use the get_text function to get the text corresponding to the
+        # token
+        tokentext = highlight.get_text(text, token, replace)
+
+        # Return the text as you want it to appear in the highlighted
+        # string
+        return f'<mark class="main_text_box_match">{tokentext}</mark>'
 
 
 class Search:
@@ -49,19 +52,14 @@ class Search:
             query = parser.parse(text)
 
             results = searcher.search(query, terms=True)
-            results.formatter = whoosh.highlight.HtmlFormatter()
+            results.formatter = PreMarkFormatter()
             results.fragmenter = whoosh.highlight.WholeFragmenter()
-
-            # search_results = [SearchResult(id=result['id'],
-            #                                score=result.score,
-            #                                matched_terms=[x[1].decode("utf-8") for x in result.matched_terms()],
-            #                                highlights_text=result.highlights('text'))
-            #                   for result in results]
 
             search_results = [{'id': result['id'],
                                'score': result.score,
-                               'matched_terms': [x[1].decode("utf-8") for x in result.matched_terms()],
-                               'highlights_text': result.highlights('text')}
+                               'matched_terms': [x[1].decode('utf-8') for x in result.matched_terms()],
+                               'highlights_text': result.highlights('text'),
+                               'summary_text': f"{result['id']}: {result.score} matches for {', '.join([x[1].decode('utf-8') for x in result.matched_terms()])}"}
                               for result in results]
 
             return search_results

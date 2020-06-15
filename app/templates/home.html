@@ -37,7 +37,9 @@
                     <div class="col-sm-12 border p-3" id="main_layout--text_header"></div>
                 </div>
                 <div class="row" style="height: 90%">
-                    <div class="col-sm-12 border p-3" id="main_layout--text" style="height: 100%; overflow: auto;"></div>
+                    <div class="col-sm-12 border p-3" id="main_layout--text" style="height: 100%; overflow-y: auto;">
+                        <pre class="main_text_box" id="main_layout--text_box"></pre>
+                    </div>
                 </div>
             </div>
         </div>
@@ -94,10 +96,14 @@
                 // display the newly friend to table.
                 search_results = response["search_results"];
                 if (response['num_results'] > 0) {
-                    $("#main_layout--text").text(search_results[0].highlights_text);
+                    $("#main_layout--text_header").text(search_results[0].summary_text);
+                    $("#main_layout--text_box").html(search_results[0].highlights_text);
+
                 }
                 else {
-                    $("#main_layout--text").text("No Results");
+                    $("#main_layout--text_header").text("No Results");
+                    $("#main_layout--text_box").text("No Results");
+
                 }
             },
             // error: function (response) {
