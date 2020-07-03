@@ -25,7 +25,7 @@ SECRET_KEY = 'c+f2g%niz)j_l=#x)#4w!lq3o$rsnwf(o9*+jx=2!r*3iv@jr_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tipitaka.ey.r.appspot.com', '127.0.0.1']
 
 
 # Application definition
@@ -118,9 +118,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+# Google App Engine: set static root for local static files
+# https://cloud.google.com/appengine/docs/flexible/python/serving-static-files
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# STATICFILES_DIRS = [
+#         os.path.join(BASE_DIR, 'data'),
+# ]
 
 # index / text directories
 
-INDEX_DIR = 'index_dir'
-TEXT_DIR = 'raw_texts'
+INDEX_DIR = 'data/index_dir'
+TEXT_DIR = 'data/raw_texts'

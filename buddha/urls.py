@@ -15,9 +15,10 @@ Including another URLconf
 """
 from app import views
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.home_page, name='home'),
     path('post/ajax/search', views.search, name = "search")
-
 ]

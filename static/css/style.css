@@ -1,0 +1,100 @@
+#main_layout > .row {
+  height: 100vh;
+}
+
+.flex-fill {
+  flex:1 1 1;
+}
+
+a:link {
+  color: #666666;
+  text-decoration: underline;
+  font-family: "Roboto", Helvetica, Arial, "sans-serif";
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+a:visited {
+  color: #333333;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #c5c5c5;
+  text-decoration: underline;
+}
+
+.title {
+  align-content: center;
+  font-family: "Roboto", Helvetica, Arial, "sans-serif";
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+
+.field {
+  padding: 5px;
+  width:100%;
+  font-family: "Roboto", Helvetica, Arial, "sans-serif";
+  font-size: 0.875rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.button {
+  background-color: #bbe0df;
+  border: none;
+  color: #1a1a1a;
+  padding: 5px;
+  width:230px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.button:hover {
+  background-color: #9fc1bf;
+}
+
+.main_text_box {
+  display: block;
+  font-family: monospace;
+  white-space: pre;
+  margin: 1em 0;
+  white-space: pre-wrap; 
+  word-break: keep-all;
+  font-size: 0.875rem;
+}
+
+.main_text_box_match {
+  color: white; 
+  background-color: red;
+}
+
+.chapter_link {
+  font-size: 0.875rem;
+}
+
+/* unvisited link */
+chapter_link:link {
+  color: red;
+}
+
+/* visited link */
+chapter_link:visited {
+  color: green;
+}
+
+/* mouse over link */
+chapter_link:hover {
+  color: hotpink;
+}
+
+/* selected link */
+chapter_link:active {
+  color: blue;
+}
