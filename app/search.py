@@ -8,9 +8,11 @@ from whoosh import index, highlight
 from whoosh.fields import Schema, TEXT, ID
 from whoosh.qparser import QueryParser, FuzzyTermPlugin, PhrasePlugin, SequencePlugin
 from whoosh.scoring import FunctionWeighting
-from whoosh.analysis import CharsetFilter, StemmingAnalyzer
+from whoosh.analysis import CharsetFilter, LowercaseFilter
 from whoosh import fields
 from whoosh.support.charset import accent_map
+
+from app.html_tokenizer import HTMLRegexTokenizer
 
 
 class PreMarkFormatter(highlight.Formatter):
@@ -71,7 +73,7 @@ class Search:
 def create_index(index_dir, text_dir):
 
     # For example, to add an accent-folding filter to a stemming analyzer:
-    my_analyzer = StemmingAnalyzer() | CharsetFilter(accent_map)
+    my_analyzer = HTMLRegexTokenizer() | LowercaseFilter() | CharsetFilter(accent_map)
 
     schema = Schema(id=ID(stored=True), 
                     text=TEXT(stored=True, analyzer=my_analyzer))
