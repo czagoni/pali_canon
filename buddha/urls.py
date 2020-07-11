@@ -20,5 +20,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.home_page, name='home'),
-    path('post/ajax/search', views.search, name = "search")
+    path('post/ajax/search', views.search, name="search"),
+    path('post/ajax/get_help_text', views.get_help_text, name="get_help_text")
+
 ]

@@ -1,0 +1,55 @@
+<h1 id="overview">Overview</h1>
+<p>A query consists of <em>terms</em> and <em>operators</em>. There are two types of terms: single terms and <em>phrases</em>. Multiple terms can be combined with operators such as <em>AND</em> and <em>OR</em>.</p>
+<h1 id="individual-terms-and-phrases">Individual terms and phrases</h1>
+<p>Find documents containing the term <code>render</code>:</p>
+<pre><code><span class="hljs-attribute">render</span></code></pre>
+<p>Find documents containing the phrase <code>all was well</code>:</p>
+<pre><code><span class="hljs-string">"all was well"</span></code></pre>
+<p>Normally when you specify a phrase, the maximum difference in position between each word in the phrase is 1 (that is, the words must be right next to each other in the document). For example, the following matches if a document has <code>library</code> within 5 words after <code>whoosh</code>::</p>
+<pre><code><span class="hljs-string">"whoosh library"</span>~<span class="hljs-number">5</span></code></pre>
+<h1 id="inexact-terms">Inexact terms</h1>
+<p>Use &quot;globs&quot; (wildcard expressions using <code>?</code> to represent a single character and <code>*</code> to represent any number of characters) to match terms::</p>
+<pre><code><span class="hljs-keyword">te</span>?t <span class="hljs-keyword">test</span>* *b?<span class="hljs-keyword">g</span>*</code></pre>
+<p>Note that a wildcard starting with <code>?</code> or <code>*</code> is very slow. Note also that these wildcards only match <em>individual terms</em>. For example, the query::</p>
+<pre><code><span class="hljs-keyword">my</span>*life</code></pre>
+<p>will <strong>not</strong> match an indexed phrase like::</p>
+<pre><code><span class="hljs-keyword">my</span> so called life</code></pre>
+<p>because those are four separate terms.</p>
+<h1 id="boolean-operators">Boolean operators</h1>
+<p>Find documents containing <code>render</code> <em>and</em> <code>shading</code>:</p>
+<pre><code>render <span class="hljs-keyword">AND</span> shading</code></pre>
+<p>Note that AND is the default relation between terms, so this is the same as:</p>
+<pre><code><span class="hljs-attribute">render shading</span></code></pre>
+<p>Find documents containing <code>render</code>, <em>and</em> also either <code>shading</code> <em>or</em> <code>modeling</code>:</p>
+<pre><code>render <span class="hljs-keyword">AND </span><span class="hljs-keyword">shading </span><span class="hljs-keyword">OR </span>modeling</code></pre>
+<p>Find documents containing <code>render</code> but <em>not</em> modeling:</p>
+<pre><code>render <span class="hljs-keyword">NOT</span> modeling</code></pre>
+<p>Find documents containing <code>alpha</code> but not either <code>beta</code> or <code>gamma</code>:</p>
+<pre><code>alpha <span class="hljs-keyword">NOT</span> (<span class="hljs-built-in">beta</span> <span class="hljs-keyword">OR</span> <span class="hljs-built-in">gamma</span>)</code></pre>
+<p>Note that when no boolean operator is specified between terms, the parser will insert one, by default AND. So this query:</p>
+<pre><code><span class="hljs-attribute">render shading modeling</span></code></pre>
+<p>is equivalent (by default) to::</p>
+<pre><code>render <span class="hljs-keyword">AND </span><span class="hljs-keyword">shading </span><span class="hljs-keyword">AND </span>modeling</code></pre>
+<p>Group operators together with parentheses. For example to find documents that contain both <code>render</code> and <code>shading</code>, or contain <code>modeling</code>::</p>
+<pre><code>(render <span class="hljs-keyword">AND </span><span class="hljs-keyword">shading) </span><span class="hljs-keyword">OR </span>modeling</code></pre>
+<h1 id="ranges">Ranges</h1>
+<p>You can match a range of terms. For example, the following query will match documents containing terms in the lexical range from <code>apple</code> to <code>bear</code><em>inclusive</em>. For example, it will match documents containing <code>azores</code> and
+<code>be</code> but not <code>blur</code>::</p>
+<pre><code>[apple TO bear]</code></pre>
+<p>The range is normally <em>inclusive</em> (that is, the range will match all terms between the start and end term, <em>as well as</em> the start and end terms themselves). You can specify that one or both ends of the range are <em>exclusive</em> by using the <code>{</code> and/or <code>}</code> characters::</p>
+<pre><code>[<span class="hljs-number">0000</span> <span class="hljs-keyword">TO</span> <span class="hljs-number">0025</span>}
+{prefix <span class="hljs-keyword">TO</span> suffix}</code></pre>
+<p>You can also specify <em>open-ended</em> ranges by leaving out the start or end term::</p>
+<pre><code>[<span class="hljs-number">0025</span> <span class="hljs-keyword">TO</span>]
+{<span class="hljs-keyword">TO</span> suffix}</code></pre>
+<h1 id="boosting-query-elements">Boosting query elements</h1>
+<p>You can specify that certain parts of a query are more important for calculating the score of a matched document than others. For example, to specify that <code>ninja</code> is twice as important as other words, and <code>bear</code> is half as important::</p>
+<pre><code>ninja^<span class="hljs-number">2</span> cowboy bear^<span class="hljs-number">0.5</span></code></pre>
+<p>You can apply a boost to several terms using grouping parentheses::</p>
+<pre><code>(<span class="hljs-built_in">open</span> sesame)^<span class="hljs-number">2.5</span> roc</code></pre>
+<h1 id="making-a-term-from-literal-text">Making a term from literal text</h1>
+<p>If you need to include characters in a term that are normally treated specially by the parser, such as spaces, colons, or brackets, you can enclose the term in single quotes::</p>
+<pre><code><span class="hljs-string">path:</span><span class="hljs-string">'MacHD:My Documents'</span>
+<span class="hljs-string">'term with spaces'</span>
+<span class="hljs-string">title:</span><span class="hljs-string">'function()'</span>
+</code></pre>

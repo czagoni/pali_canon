@@ -6,14 +6,14 @@
                 <div class="row h-50">
                     <div class="col-sm-12 border p-3" id="main_layout--search">
                         <!-- Search -->
-	                    <div class="title">Enter a search query</div>
+	                    <div class="title">Search Query</div>
 
                         <form action="javascript:;" onsubmit="Search(this)">
                             <input autofocus class='field' id='search_query_input' placeholder=""/>
                             {% csrf_token %}
                         </form>
 
-                        <a><div class="button" id="toggle_help_text" style="width: 180px;">How it Works ▼ </div></a>
+                        <a><div class="button" id="toggle_help_text" style="width: 100%;">How it Works ▼ </div></a>
 
                         <div id='help_text' style="display: none;">
                             Blah-blah-blah<br><br>
@@ -35,90 +35,102 @@
         </div>
     </div>
   
-  <script type=text/javascript>
+    <script type=text/javascript>
 
-    function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+        function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
             }
         }
-    }
-        return cookieValue;
-    }
-    var csrftoken = getCookie('csrftoken');
-    console.log(csrftoken);
-
-    //Ajax call
-    function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    $.ajaxSetup({
-        crossDomain: false, // obviates need for sameOrigin test
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type)) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
+            return cookieValue;
         }
-    });
+        var csrftoken = getCookie('csrftoken');
+        console.log(csrftoken);
 
-    var search_results = [];
-    var selection = 0;
-
-    function Search() {
-        // preventing from page reload and default actions
-        // serialize the data for sending the form data.
-        var search_query_text = $("#search_query_input").val();
-        selection = 0;
-        // make POST ajax call
-        $.ajax({
-            dataType: 'json',
-            url: "{% url 'search' %}",
-            data: {
-                "search_query_text": search_query_text
-            },
-            success: function (response) {
-                // display the newly friend to table.
-                search_results = response["search_results"];
-                if (response['num_results'] > 0) {
-                    $("#header_text").html(search_results[selection].header_text);
-                    $("#highlights_text").html(search_results[selection].highlights_text);
-                    $("#main_layout--text").scrollTop(0);
-                    $("#main_layout--chapters").html(response['chapter_links']);
-
+        //Ajax call
+        function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
                 }
-                else {
-                    $("#header_text").html("No results.");
-                    $("#highlights_text").html("No results.");
-                    $("#main_layout--chapters").text("No results.");
+            }
+        });
 
-                }
-            },
-            // error: function (response) {
-            //     // alert the error if any error occured
-            //     alert("error");
-            // }
+        var search_results = [];
+        var num_results = 0;
+        var selection = 0;
+        var help_text = "";
+        var show_help = false;
+
+        $(function() {
+            $(document).ready(function(){
+                    $.ajax({
+                    url: "{% url 'get_help_text' %}",
+                    success: function (response) {
+                        help_text = response["help_text"];
+                    },
+                })
+            })
         })
-    }
+
+        function Search() {
+            // preventing from page reload and default actions
+            // serialize the data for sending the form data.
+            var search_query_text = $("#search_query_input").val();
+            selection = 0;
+            // make POST ajax call
+            $.ajax({
+                dataType: 'json',
+                url: "{% url 'search' %}",
+                data: {
+                    "search_query_text": search_query_text
+                },
+                success: function (response) {
+                    search_results = response["search_results"];
+                    num_results = response['num_results'];
+                    if (num_results > 0) {
+                        $("#highlights_text").html(search_results[selection].highlights_text);
+                        $("#main_layout--text").scrollTop(0);
+                        $("#main_layout--chapters").html(response['chapter_links']);
+
+                    }
+                    else {
+                        $("#highlights_text").html("No results.");
+                        $("#main_layout--chapters").text("No results.");
+                    }
+                },
+            })
+        }
 
         $(function() {
             $(document).ready(function(){
                 $("#toggle_help_text").on('click', function() {
-                    if (help_text == true) {
-                        $("#help_text").hide(1000);
-                        help_text = false;
+                    if (show_help == true) {
+                        if (num_results > 0) {
+                            $("#highlights_text").html(search_results[selection].highlights_text);
+                        }
+                        else {
+                            $("#highlights_text").html("No results.");
+                        }
+                        show_help = false;
                         $("#toggle_help_text").text("How it Works ▼ ");
                     }
                     else {
-                        $("#help_text").show(1000);
-                        help_text = true;
+                        $("#highlights_text").html(help_text);
+                        show_help = true;
                         $("#toggle_help_text").text("How it Works ▲ ");
                     }
                 });

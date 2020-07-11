@@ -24,6 +24,8 @@ def main(args):
 
     (_, _, file_names) = next(os.walk(root_path))
 
+    file_names = [f'mn{i}_root-pli-ms.json' for i in range(1, 11)]
+
     text_dict = {}
 
     for file_name in tqdm(file_names, desc='Formatting HTML text'):

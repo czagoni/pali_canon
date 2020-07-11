@@ -122,7 +122,7 @@ class Search:
     def __init__(self, index_dir, text_dir):
         self.ix = index.open_dir(index_dir)
 
-    def search(self, text, _type='default'):
+    def search(self, text, _type='sequence'):
 
         def myscore_fn(searcher, fieldname, text, matcher):
             return matcher.value_as("frequency")

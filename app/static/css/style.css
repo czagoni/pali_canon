@@ -26,24 +26,30 @@ a:hover {
 
 .title {
   align-content: center;
-  font-family: "Roboto", Helvetica, Arial, "sans-serif";
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 32px;
+  font-family: "Skolar Sans PE", "Noto Sans", sans-serif;
+  font-size: 3rem;
+  font-weight: 300;
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  letter-spacing: 0.04em;
+  font-variant-caps: all-small-caps;
+  text-align: center;
+  color: rgb(34,33,32);
 }
 
 .field {
   padding: 5px;
   width:100%;
-  font-family: "Roboto", Helvetica, Arial, "sans-serif";
+  font-family: "Skolar Sans PE", "Noto Sans", sans-serif;
   font-size: 0.875rem;
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
 .button {
-  background-color: #bbe0df;
-  border: none;
+  background-color: #f7f7f7;
+  border-width: 10px;
+  border-color:  #1a1a1a;
   color: #1a1a1a;
   padding: 5px;
   width:230px;
@@ -52,12 +58,13 @@ a:hover {
   display: inline-block;
   font-size: 0.875rem;
   font-weight: 500;
-  margin-top: 8px;
+  margin-top: 16px;
   margin-bottom: 16px;
+  cursor: pointer;
 }
 
 .button:hover {
-  background-color: #9fc1bf;
+  background-color: #eeeeee;
 }
 
 .main_text_box {
@@ -80,8 +87,13 @@ a:hover {
   background-color: red;
 }
 
+code {
+  font-family: "Skolar Sans PE", "Noto Sans", sans-serif;
+  background-color: rgb(240, 240, 240);
+}
+
 .chapter_link {
-  font-family: "Skolar PE", "Noto Serif", "Skolar Sans PE", "Noto Sans", serif;
+  font-family: "Skolar Sans PE", "Noto Sans", sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
