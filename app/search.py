@@ -156,7 +156,7 @@ class Search:
 
             return {'search_results': search_results,
                     'num_results': len(search_results),
-                    'chapter_links': '<br>'.join([f"<span class='chapter_link' id='chapter_link-{i}''>{result['id']} ({result.score})</span>"
+                    'chapter_links': '<br>'.join([f"<span class='chapter_link' id='chapter_link-{i}' role='link'>{result['id']} ({result.score})</span>"
                                                  for i, result in enumerate(results)])}
 
 
@@ -175,15 +175,8 @@ def create_index(index_dir, text_dict):
 
     writer = ix.writer()
 
-    # (_, _, file_names) = next(os.walk(text_dir))
-
     for title, text in tqdm(text_dict.items(), total=len(text_dict), desc='Creating index'):
         writer.add_document(id=title, text=text)       
-
-    # for file_name in file_names:
-    #     with open(os.path.join(text_dir, file_name), 'r') as f:
-    #         writer.add_document(
-    #             id=f"{file_name.split('.')[0]}", text=normalize('NFKC', f.read()))
 
     writer.commit()
 

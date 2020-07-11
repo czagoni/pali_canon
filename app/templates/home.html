@@ -9,7 +9,7 @@
 	                    <div class="title">Enter a search query</div>
 
                         <form action="javascript:;" onsubmit="Search(this)">
-                            <input class='field' id='search_query_input' placeholder=""/>
+                            <input autofocus class='field' id='search_query_input' placeholder=""/>
                             {% csrf_token %}
                         </form>
 
@@ -25,21 +25,12 @@
                     </div>
                 </div>
                 <div class="row h-50">
-                    <div class="col-sm-12 border" id="main_layout--chapters"></div>
+                    <div class="col-sm-12 border p-3" id="main_layout--chapters"></div>
                 </div>
             </div>
 
-            <div class="col-sm-8 h-100">
-                <div class="row" style="height: 10%">
-                    <div class="col-sm-12 border p-3" id="main_layout--header">
-                        <pre class="main_text_box" id="header_text" style="font-size: 1.25rem;"></pre>
-                    </div>
-                </div>
-                <div class="row" style="height: 90%">
-                    <div class="col-sm-12 border p-3" id="main_layout--text" style="height: 100%; overflow-y: auto;">
-                        <pre class="main_text_box" id="highlights_text"></pre>
-                    </div>
-                </div>
+            <div class="col-sm-8 border h-100" id="main_layout--text" style="height: 100%; overflow-y: auto;">
+                <pre class="main_text_box" id="highlights_text"></pre>
             </div>
         </div>
     </div>

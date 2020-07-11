@@ -6,7 +6,7 @@
   flex:1 1 1;
 }
 
-a:link {
+/* a:link {
   color: #666666;
   text-decoration: underline;
   font-family: "Roboto", Helvetica, Arial, "sans-serif";
@@ -22,7 +22,7 @@ a:visited {
 a:hover {
   color: #c5c5c5;
   text-decoration: underline;
-}
+} */
 
 .title {
   align-content: center;
@@ -69,7 +69,8 @@ a:hover {
 
   display: block;
   white-space: pre;
-  margin: 1em 0;
+  justify-content: center;
+  margin: 4em 2em;
   white-space: pre-wrap; 
   word-break: keep-all;
 }
@@ -80,27 +81,86 @@ a:hover {
 }
 
 .chapter_link {
-  font-size: 0.875rem;
-}
-
-/* unvisited link */
-chapter_link:link {
-  color: red;
-}
-
-/* visited link */
-chapter_link:visited {
-  color: green;
+  font-family: "Skolar PE", "Noto Serif", "Skolar Sans PE", "Noto Sans", serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgb(34,33,32);
+  cursor: pointer;
 }
 
 /* mouse over link */
-chapter_link:hover {
-  color: hotpink;
+.chapter_link:hover {
+  color: rgb(116,115,114);
 }
 
 /* selected link */
-chapter_link:active {
+/* .chapter_link:active {
   color: blue;
+} */
+
+:root
+{
+    font-family: "Skolar PE", "Noto Serif", "Skolar Sans PE", "Noto Sans", serif;
+    font-weight: 400;
+    line-height: 1.5;
+
+    color: rgb(34,33,32);
+}
+
+
+ul,
+ol,
+dt,
+p,
+figure,
+pre
+{
+    margin: .75em 0 0 0;
+}
+hr
+{
+    width: 33%;
+
+    border: var(--sc-border);
+
+    margin: 1.5em auto;
+} 
+
+/* lists */
+
+ol,
+ul
+{
+    padding-left: 1em;
+}
+ol ul,
+ul ol,
+ul ul,
+ol ol
+{
+    margin: .5em 0 0;
+}
+li
+{
+    padding: 0;
+}
+dt
+{
+    font-weight: bold;
+}
+dd
+{
+    margin-left: 1em;
+}
+dd ol,
+dd ul
+{
+    padding-left: 0;
+}
+blockquote
+{
+    margin-left: 2em;
 }
 
 /* headings */
@@ -158,6 +218,7 @@ h6
 header
 {
     margin-bottom: 4em;
+    font-size: 1.25em;
 
     text-align: center;
 
@@ -169,7 +230,7 @@ header ul
 
     list-style-type: none;
 
-    letter-spacing: letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
 
     font-variant-caps: all-small-caps;
 }
@@ -177,7 +238,7 @@ header h1
 {
     margin-top: .5rem;
 
-    letter-spacing: letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
 
     font-variant-caps: small-caps;
 }
@@ -191,7 +252,7 @@ header + blockquote
 
 .evam
 {
-    letter-spacing: letter-spacing: 0.02em;
+    letter-spacing: 0.02em;
 
     font-variant-caps: all-small-caps;
 }
@@ -241,7 +302,7 @@ header + blockquote
 .endvagga
 {
     text-align: center;
-    letter-spacing: letter-spacing: 0.02em;
+    letter-spacing:  0.02em;
     text-transform: uppercase;
 
     color: rgb(116,115,114);
@@ -283,7 +344,7 @@ header + blockquote
 
 .author
 {
-    letter-spacing: letter-spacing: 0.02em;
+    letter-spacing: 0.02em;
 
     font-variant-caps: small-caps;
 }
