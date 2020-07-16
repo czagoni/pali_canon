@@ -6,7 +6,7 @@
   flex:1 1 1;
 }
 
-a:link {
+/* a:link {
   color: #666666;
   text-decoration: underline;
   font-family: "Roboto", Helvetica, Arial, "sans-serif";
@@ -22,28 +22,34 @@ a:visited {
 a:hover {
   color: #c5c5c5;
   text-decoration: underline;
-}
+} */
 
 .title {
   align-content: center;
-  font-family: "Roboto", Helvetica, Arial, "sans-serif";
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 32px;
+  font-family: "Skolar Sans PE", "Noto Sans", sans-serif;
+  font-size: 3rem;
+  font-weight: 300;
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  letter-spacing: 0.04em;
+  font-variant-caps: all-small-caps;
+  text-align: center;
+  color: rgb(34,33,32);
 }
 
 .field {
   padding: 5px;
   width:100%;
-  font-family: "Roboto", Helvetica, Arial, "sans-serif";
+  font-family: "Skolar Sans PE", "Noto Sans", sans-serif;
   font-size: 0.875rem;
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
 .button {
-  background-color: #bbe0df;
-  border: none;
+  background-color: #f7f7f7;
+  border-width: 10px;
+  border-color:  #1a1a1a;
   color: #1a1a1a;
   padding: 5px;
   width:230px;
@@ -52,22 +58,28 @@ a:hover {
   display: inline-block;
   font-size: 0.875rem;
   font-weight: 500;
-  margin-top: 8px;
+  margin-top: 16px;
   margin-bottom: 16px;
+  cursor: pointer;
 }
 
 .button:hover {
-  background-color: #9fc1bf;
+  background-color: #eeeeee;
 }
 
 .main_text_box {
+  font-family: "Skolar PE", "Noto Serif", "Skolar Sans PE", "Noto Sans", serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgb(34,33,32);
+
   display: block;
-  font-family: monospace;
   white-space: pre;
-  margin: 1em 0;
+  justify-content: center;
+  margin: 4em 2em;
   white-space: pre-wrap; 
   word-break: keep-all;
-  font-size: 0.875rem;
 }
 
 .main_text_box_match {
@@ -75,26 +87,276 @@ a:hover {
   background-color: red;
 }
 
+code {
+  font-family: "Skolar Sans PE", "Noto Sans", sans-serif;
+  background-color: rgb(240, 240, 240);
+}
+
 .chapter_link {
-  font-size: 0.875rem;
-}
-
-/* unvisited link */
-chapter_link:link {
-  color: red;
-}
-
-/* visited link */
-chapter_link:visited {
-  color: green;
+  font-family: "Skolar Sans PE", "Noto Sans", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgb(34,33,32);
+  cursor: pointer;
 }
 
 /* mouse over link */
-chapter_link:hover {
-  color: hotpink;
+.chapter_link:hover {
+  color: rgb(116,115,114);
 }
 
 /* selected link */
-chapter_link:active {
+/* .chapter_link:active {
   color: blue;
+} */
+
+:root
+{
+    font-family: "Skolar PE", "Noto Serif", "Skolar Sans PE", "Noto Sans", serif;
+    font-weight: 400;
+    line-height: 1.5;
+
+    color: rgb(34,33,32);
+}
+
+
+ul,
+ol,
+dt,
+p,
+figure,
+pre
+{
+    margin: .75em 0 0 0;
+}
+hr
+{
+    width: 33%;
+
+    border: var(--sc-border);
+
+    margin: 1.5em auto;
+} 
+
+/* lists */
+
+ol,
+ul
+{
+    padding-left: 1em;
+}
+ol ul,
+ul ol,
+ul ul,
+ol ol
+{
+    margin: .5em 0 0;
+}
+li
+{
+    padding: 0;
+}
+dt
+{
+    font-weight: bold;
+}
+dd
+{
+    margin-left: 1em;
+}
+dd ol,
+dd ul
+{
+    padding-left: 0;
+}
+blockquote
+{
+    margin-left: 2em;
+}
+
+/* headings */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+{
+    line-height: 1.3333;
+
+    margin: 1em 0 0 0;
+
+    color: rgb(116,115,114);
+}
+h1
+{
+    font-size: 2em;
+    font-size: clamp(1.5em, 5vw, 2em);
+    font-weight: 300;
+}
+h2
+{
+    font-size: 1.5em;
+    font-size: clamp(1.125em, 3.75vw, 1.5em);
+    font-weight: 400;
+}
+h3
+{
+    font-size: 1.333em;
+    font-size: clamp(1em, 3.333vw, 1.333em);
+    font-weight: 400;
+}
+h4
+{
+    font-size: 1.25em;
+    font-size: clamp(1em, 5vw, 1.25em);
+    font-weight: 400;
+}
+h5
+{
+    font-size: 1em;
+    font-weight: 600;
+}
+h6
+{
+    font-size: 1em;
+    font-style: italic;
+}
+
+/*sutta title */
+
+header
+{
+    margin-bottom: 4em;
+    font-size: 1.25em;
+
+    text-align: center;
+
+    color: rgb(116,115,114);
+}
+header ul
+{
+    font-family: "Skolar Sans PE", "Noto Sans", sans-serif;
+
+    list-style-type: none;
+
+    letter-spacing: 0.04em;
+
+    font-variant-caps: all-small-caps;
+}
+header h1
+{
+    margin-top: .5rem;
+
+    letter-spacing: 0.04em;
+
+    font-variant-caps: small-caps;
+}
+header + p,
+header + blockquote
+{
+    margin-top: 4em;
+}
+
+/* descriptive classes used in bilara and legacy texts */
+
+.evam
+{
+    letter-spacing: 0.02em;
+
+    font-variant-caps: all-small-caps;
+}
+.namo
+{
+    font-style: italic;
+
+    text-align: center;
+}
+.speaker
+{
+    font-style: italic;
+}
+.pe
+{
+    font-style: italic;
+
+    color: rgb(116,115,114);
+}
+.add
+{
+    color: rgb(116,115,114);
+}
+
+/* end of section */
+
+.endsection,
+.end,
+.endsubsection
+{
+    font-style: italic;
+
+    text-align: center;
+
+    color: rgb(116,115,114);
+}
+
+.endsutta
+{
+    font-weight: bold;
+
+    text-align: center;
+
+    color: rgb(116,115,114);
+}
+.endbook,
+.endvagga
+{
+    text-align: center;
+    letter-spacing:  0.02em;
+    text-transform: uppercase;
+
+    color: rgb(116,115,114);
+}
+
+.endbook
+{
+    font-weight: bold;
+}
+
+/* uddana */
+
+.uddana
+{
+    font-family: "Skolar Sans PE", "Noto Sans", sans-serif;
+    font-size: var(--sc-skolar-font-size-s);
+    font-weight: 400;
+   
+    color: rgb(116,115,114);
+}
+
+.uddana-intro
+{
+    font-weight: bold;
+
+    color: rgb(116,115,114);
+}
+
+.uddanagatha
+{
+    font-family: "Skolar Sans PE", "Noto Sans", sans-serif;
+    font-size: var(--sc-skolar-font-size-s);
+    font-weight: 400;
+    font-style: inherit;
+ 
+    color: rgb(116,115,114);
+}
+/* descriptive classes for metadata*/
+
+.author
+{
+    letter-spacing: 0.02em;
+
+    font-variant-caps: small-caps;
 }

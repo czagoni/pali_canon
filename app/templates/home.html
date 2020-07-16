@@ -2,9 +2,10 @@
 {% block body %}
     <div id="main_layout" class="container main_container d-flex">
         <div class="row flex-fill">
-            <div class="col-sm-4 h-100">
+           <div class="col-md-4 h-100">
                 <div class="row h-50">
-                    <div class="col-sm-12 border p-3" id="main_layout--search">
+
+                   <div class="col-md-12 border p-3" id="main_layout--search">
                         <!-- Search -->
 	                    <div class="title">Search Query</div>
 
@@ -25,16 +26,17 @@
                     </div>
                 </div>
                 <div class="row h-50">
-                    <div class="col-sm-12 border p-3" id="main_layout--chapters"></div>
+                    <div class="col-md-12 border p-3" id="main_layout--chapters"></div>
                 </div>
             </div>
+            <div class="col-md-8 border h-100" id="main_layout--text" style="height: 100%;">
+                <div class="xivmap top-right slide-in"></div>
 
-            <div class="col-sm-8 border h-100" id="main_layout--text" style="height: 100%; overflow-y: auto;">
                 <pre class="main_text_box" id="highlights_text"></pre>
             </div>
         </div>
     </div>
-  
+ 
     <script type=text/javascript>
 
         function getCookie(name) {
@@ -111,31 +113,33 @@
                         $("#highlights_text").html("No results.");
                         $("#main_layout--chapters").text("No results.");
                     }
+                    xivmap({ context: document.querySelector('.main_text_box'),
+                             elements: [document.querySelector('.main_text_box_match')]});
                 },
             })
         }
 
-        $(function() {
-            $(document).ready(function(){
-                $("#toggle_help_text").on('click', function() {
-                    if (show_help == true) {
-                        if (num_results > 0) {
-                            $("#highlights_text").html(search_results[selection].highlights_text);
-                        }
-                        else {
-                            $("#highlights_text").html("No results.");
-                        }
-                        show_help = false;
-                        $("#toggle_help_text").text("How it Works ▼ ");
-                    }
-                    else {
-                        $("#highlights_text").html(help_text);
-                        show_help = true;
-                        $("#toggle_help_text").text("How it Works ▲ ");
-                    }
-                });
-            });
-        });
+        // $(function() {
+        //     $(document).ready(function(){
+        //         $("#toggle_help_text").on('click', function() {
+        //             if (show_help == true) {
+        //                 if (num_results > 0) {
+        //                     $("#highlights_text").html(search_results[selection].highlights_text);
+        //                 }
+        //                 else {
+        //                     $("#highlights_text").html("No results.");
+        //                 }
+        //                 show_help = false;
+        //                 $("#toggle_help_text").text("How it Works ▼ ");
+        //             }
+        //             else {
+        //                 $("#highlights_text").html(help_text);
+        //                 show_help = true;
+        //                 $("#toggle_help_text").text("How it Works ▲ ");
+        //             }
+        //         });
+        //     });
+        // });
 
         $(function() {
             $(document).ready(function(){
@@ -144,6 +148,8 @@
                     $("#header_text").html(search_results[selection].header_text);
                     $("#highlights_text").html(search_results[selection].highlights_text);
                     $("#main_layout--text").scrollTop(0);
+                    xivmap({ context: document.querySelector('.main_text_box'),
+                             elements: [document.querySelector('.main_text_box_match')]});
                     return false;
                 });              
             });
