@@ -1,10 +1,9 @@
 {% extends 'layout.html' %}
 {% block body %}
-    <div id="main_layout" class="container main_container d-flex">
+    <div id="main_layout" class="container main_container">
         <div class="row flex-fill">
            <div class="col-md-4 h-100">
                 <div class="row h-50">
-
                    <div class="col-md-12 border p-3" id="main_layout--search">
                         <!-- Search -->
 	                    <div class="title">Search Query</div>
@@ -29,11 +28,11 @@
                     <div class="col-md-12 border p-3" id="main_layout--chapters"></div>
                 </div>
             </div>
-            <div class="col-md-8 border h-100" id="main_layout--text" style="height: 100%;">
-                <div class="xivmap top-right slide-in"></div>
-
+            <div class="col-md-8 border h-100" id="main_layout--text" style="height: 100%; overflow-y: auto;">
                 <pre class="main_text_box" id="highlights_text"></pre>
             </div>
+            <div class="xivmap top-right slide-in"></div>
+
         </div>
     </div>
  
@@ -71,6 +70,8 @@
             }
         });
 
+        var minimap = xivmap({ context: document.querySelector("#main_layout--text")});
+
         var search_results = [];
         var num_results = 0;
         var selection = 0;
@@ -107,14 +108,14 @@
                         $("#highlights_text").html(search_results[selection].highlights_text);
                         $("#main_layout--text").scrollTop(0);
                         $("#main_layout--chapters").html(response['chapter_links']);
+                        minimap.refresh();
 
                     }
                     else {
                         $("#highlights_text").html("No results.");
                         $("#main_layout--chapters").text("No results.");
+                        minimap.refresh(true);
                     }
-                    xivmap({ context: document.querySelector('.main_text_box'),
-                             elements: [document.querySelector('.main_text_box_match')]});
                 },
             })
         }
@@ -148,8 +149,7 @@
                     $("#header_text").html(search_results[selection].header_text);
                     $("#highlights_text").html(search_results[selection].highlights_text);
                     $("#main_layout--text").scrollTop(0);
-                    xivmap({ context: document.querySelector('.main_text_box'),
-                             elements: [document.querySelector('.main_text_box_match')]});
+                    minimap.refresh();
                     return false;
                 });              
             });

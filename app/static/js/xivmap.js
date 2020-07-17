@@ -75,7 +75,12 @@ function xivmap(config) {
 		updateViewport();
 	}
 
-	function refresh() {
+	function refresh(noresults) {
+
+		noresults = noresults || false;
+		if (noresults) o.minimap.classList.add('xivmap-hidden');
+		else o.minimap.classList.remove('xivmap-hidden');
+
 		disableTransitions();
 		render();
 
@@ -86,18 +91,18 @@ function xivmap(config) {
 	}
 
 	function attachListeners() {
-		window.addEventListener('scroll', updateViewport);
+		o.context.addEventListener('scroll', updateViewport);
 		window.addEventListener('resize', debouncedRender);
 		o.minimap.addEventListener('mousedown', beginDragTracking);
 
 		if (o.autohide) {
-			window.addEventListener('scroll', showMomentarily);
+			o.context.addEventListener('scroll', showMomentarily);
 			o.minimap.addEventListener('mousemove', showMomentarily);
 		}
 	}
 
 	function detachListeners() {
-		window.removeEventListener('scroll', updateViewport);
+		o.context.removeEventListener('scroll', updateViewport);
 		window.removeEventListener('resize', debouncedRender);
 		o.minimap.removeEventListener('mousedown', beginDragTracking);
 	}
@@ -115,7 +120,7 @@ function xivmap(config) {
 		for (var i = 0; i < elements.length; i++) {
 			var el = elements[i];
 			// Exclude fixed elements and invisible elements from the minimap
-			if (!isElementFixed(el) && isElementVisible(el, {opacity: o.renderNoOpacity})) {
+			if (!isElementFixed(el)) {
 				if (o.accurateText && contains(o.accurateTextTags, el.tagName)) {
 					html += makeAccurateRectangle(el, ratio);
 				}
@@ -161,7 +166,7 @@ function xivmap(config) {
 	 * Should probably be used when scrolling.
 	 */
 	function updateViewport() {
-		var topDistance = window.pageYOffset;
+		var topDistance = o.context.scrollTop;
 		var ratio = o.minimap.offsetWidth / o.context.offsetWidth;
 		var viewport = o.minimap.querySelector('.xivmap-viewport');
 		viewport.style['margin-top'] = topDistance * ratio + 'px';
@@ -204,7 +209,7 @@ function xivmap(config) {
 		var distance = mouseDistanceFromTopOfTarget(e);
 		var viewport = o.minimap.querySelector('.xivmap-viewport');
 		var centeredDistance = distance - viewport.offsetHeight / 2;
-		window.scrollTo(0, centeredDistance / ratio);
+		o.context.scrollTo(0, centeredDistance / ratio);
 	}
 
 	function disableTransitions() {
@@ -473,6 +478,7 @@ function xivmap(config) {
 					if (!timeout) context = args = null;
 				}
 			}
+		console.log('debounce')
 		};
 		return function() {
 			context = this;
@@ -526,7 +532,7 @@ xivmap.selectors = function() {
  * @returns {string[]}
  */
 xivmap.accurateTextTags = function() {
-	return ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'TEXTAREA', 'CODE', 'PRE', 'MARK', 'UL', 'LI'];
+	return ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'TEXTAREA', 'CODE', 'PRE', 'MARK', 'UL', 'LI', 'BLOCKQUOTE'];
 	// return [];
 };
 
