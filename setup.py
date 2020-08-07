@@ -52,7 +52,8 @@ setup(
     install_requires=[
         'selenium==3.141.0',
         'django==3.0.7',
-        'whoosh==2.7.4'
+        'whoosh==2.7.4',
+        'tqdm==4.47.0'
     ],
 
     # List additional groups of dependencies here (e.g. development
