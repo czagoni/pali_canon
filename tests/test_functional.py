@@ -17,7 +17,18 @@ class FunctionalTest(LiveServerTestCase):
         # options.binary_location = "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
         
         # self.browser = webdriver.Chrome(options=options)
-        self.browser = webdriver.Chrome()
+
+        chromeOptions = Options() 
+        chromeOptions.add_argument("--no-sandbox") 
+        chromeOptions.add_argument("--disable-setuid-sandbox") 
+        chromeOptions.add_argument("--disable-dev-shm-using") 
+        chromeOptions.add_argument("--disable-extensions") 
+        chromeOptions.add_argument("--disable-gpu") 
+        chromeOptions.add_argument("start-maximized") 
+        chromeOptions.add_argument("disable-infobars") 
+        chromeOptions.add_argument("--headless") 
+
+        self.browser = webdriver.Chrome(options=chromeOptions)
 
 
     def tearDown(self):
