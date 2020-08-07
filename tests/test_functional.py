@@ -13,10 +13,12 @@ class FunctionalTest(LiveServerTestCase):
 
     def setUp(self):
         
-        options = Options()
-        options.binary_location = "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+        # options = Options()
+        # options.binary_location = "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
         
-        self.browser = webdriver.Chrome(options=options)
+        # self.browser = webdriver.Chrome(options=options)
+        self.browser = webdriver.Chrome()
+
 
     def tearDown(self):
         self.browser.quit()
