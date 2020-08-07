@@ -9,7 +9,7 @@
 	                    <div class="title">Search Query</div>
 
                         <form action="javascript:;" onsubmit="Search(this)">
-                            <input autofocus class='field' id='search_query_input' placeholder=""/>
+                            <input autofocus class='field' id='search_query_input' placeholder="Enter a search query"/>
                             {% csrf_token %}
                         </form>
 
@@ -31,7 +31,7 @@
             <div class="col-md-8 border h-100" id="main_layout--text" style="height: 100%; overflow-y: auto;">
                 <pre class="main_text_box" id="highlights_text"></pre>
             </div>
-            <div class="xivmap top-right slide-in"></div>
+            <div class="xivmap top-right slide-in xivmap-hidden"></div>
 
         </div>
     </div>

@@ -25,7 +25,7 @@ SECRET_KEY = 'c+f2g%niz)j_l=#x)#4w!lq3o$rsnwf(o9*+jx=2!r*3iv@jr_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tipitaka.ey.r.appspot.com', '127.0.0.1']
+ALLOWED_HOSTS = ['tipitaka.ey.r.appspot.com', 'dev-dot-tipitaka.ey.r.appspot.com', '127.0.0.1']
 
 
 # Application definition

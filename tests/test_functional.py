@@ -13,10 +13,23 @@ class FunctionalTest(LiveServerTestCase):
 
     def setUp(self):
         
-        options = Options()
-        options.binary_location = "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+        # options = Options()
+        # options.binary_location = "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
         
-        self.browser = webdriver.Chrome(options=options)
+        # self.browser = webdriver.Chrome(options=options)
+
+        chromeOptions = Options() 
+        chromeOptions.add_argument("--no-sandbox") 
+        chromeOptions.add_argument("--disable-setuid-sandbox") 
+        chromeOptions.add_argument("--disable-dev-shm-using") 
+        chromeOptions.add_argument("--disable-extensions") 
+        chromeOptions.add_argument("--disable-gpu") 
+        chromeOptions.add_argument("start-maximized") 
+        chromeOptions.add_argument("disable-infobars") 
+        chromeOptions.add_argument("--headless") 
+
+        self.browser = webdriver.Chrome(options=chromeOptions)
+
 
     def tearDown(self):
         self.browser.quit()
@@ -28,12 +41,12 @@ class FunctionalTest(LiveServerTestCase):
         self.browser.get(self.live_server_url)
 
         # The page title and the header tell him what this is all about
-        self.assertIn('Pali Canon Search', self.browser.title)
-        header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('Pali Canon Search', header_text)
+        self.assertIn('Pali Canons Search', self.browser.title)
+        title_text = self.browser.find_element_by_class_name('title').text
+        self.assertIn('Search Query', title_text)
 
         # He notices the search query box
-        inputbox = self.browser.find_element_by_id('id_search_query_box')
+        inputbox = self.browser.find_element_by_id('search_query_input')
         self.assertEqual(inputbox.get_attribute('placeholder'),
                          'Enter a search query')
 
@@ -44,11 +57,7 @@ class FunctionalTest(LiveServerTestCase):
         # the search results are displayed
         inputbox.send_keys(Keys.ENTER)
 
-        # The page title and the header tell him what this is all about
-        self.assertIn('Pali Canon Search Results', self.browser.title)
-        header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('Pali Canon Search Results', header_text)
-        self.wait_for_row_in_list_table('samano')
+        # TODO: carry on with test
 
     def wait_for_row_in_list_table(self, row_text): 
 

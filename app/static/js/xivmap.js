@@ -478,7 +478,6 @@ function xivmap(config) {
 					if (!timeout) context = args = null;
 				}
 			}
-		console.log('debounce')
 		};
 		return function() {
 			context = this;

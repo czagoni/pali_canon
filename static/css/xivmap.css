@@ -41,7 +41,7 @@
 .xivmap [data-tag="IFRAME"],
 .xivmap [data-tag="CODE"],
 .xivmap [data-tag="TEXTAREA"],
-.xivmap [data-tag="BLOCKQUOTE"],
+/* .xivmap [data-tag="BLOCKQUOTE"], */
 .xivmap [data-tag="ADDRESS"] {
     background-color: #b9b9b9;
 }
@@ -76,7 +76,7 @@
     right: 0;
     width: 70px;
     margin: 20px;
-    position: fixed;
+    position: absolute;
 
     /* used by the autohide option */
     transition: opacity 250ms ease-out;
