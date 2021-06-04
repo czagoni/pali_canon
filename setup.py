@@ -51,7 +51,7 @@ setup(
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
         'selenium==3.141.0',
-        'django==3.0.7',
+        'django==3.1.9',
         'whoosh==2.7.4',
         'tqdm==4.47.0'
     ],
